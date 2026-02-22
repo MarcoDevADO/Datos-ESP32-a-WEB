@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>ESP32 Dashboard</title>
+  <!-- Biblioteca Chart.js para gráficas en tiempo real -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Estilos CSS personalizados -->
+  <style>
+    /* Variables CSS globales para diseño responsivo */
+    :root{
+      --gap:12px;            /* Espaciado entre elementos */
+      --bg:#f6f7f9;          /* Color de fondo principal */
+      --card:#ffffff;        /* Color de fondo de tarjetas */
+      --muted:#666;          /* Color para texto secundario */
+      --radius:10px;         /* Radio de bordes redondeados */
+    }
+    /* Estilos base */
+    html,body{height:100%;}
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background:var(--bg);
+      color:#111;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.4;
+    }
+    /* Encabezado pegajoso con título de la aplicación */
+    header{
+      background:var(--card);
+      padding:12px 16px;
+      box-shadow:0 1px 3px rgba(0,0,0,0.06);
+      display:flex;
+      align-items:center;
+      gap:12px;
+      position:sticky;
+      top:0;
+      z-index:10;
+    }
+    header h1{margin:0;font-size:1.05rem}
+    /* Contenedor principal con layout flexible */
+    main.container{
+      display:flex;
+      gap:var(--gap);
+      padding:12px;
+      max-width:1200px;
+      margin:0 auto 24px auto;
+      box-sizing:border-box;
+    }
+    /* Contenedor de tabla de datos */
+    #tabla-container{
+      flex:1 1 320px;
+      min-width:240px;
+      background:var(--card);
+      border-radius:var(--radius);
+      padding:10px;
+      box-shadow:0 1px 2px rgba(0,0,0,0.04);
+      overflow:hidden;
+    }
+    /* Scroll horizontal para tabla en móvil */
+    .table-wrapper{overflow-x:auto; -webkit-overflow-scrolling:touch;}
+    /* Contenedor de gráficas */
+    #graficas-container{
+      flex:2 1 480px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    /* Envoltorio individual para cada gráfica */
+    .chart-wrapper{
+      height:200px;
+      position:relative;
+      background:var(--card);
+      border-radius:var(--radius);
+      padding:10px;
+      box-shadow:0 1px 2px rgba(0,0,0,0.04);
+    }
+    /* Estilos para canvas de gráficas */
+    canvas{width:100% !important; height:100% !important; display:block; border-radius:8px; background:transparent}
+    /* Estilos de tabla */
+    table{border-collapse:collapse; width:100%;}
+    table, th, td { border: 1px solid #e0e0e0; }
+    th, td { padding:10px; text-align:center; font-size:0.95rem; }
+    h3{margin:0 0 8px 0; font-size:1rem}
+
+    /* ===== MEDIA QUERIES PARA RESPONSIVIDAD ===== */
+    /* Tablets grandes y pantallas normales */
+    @media (max-width: 900px){
+      main.container{padding:10px}
+      .chart-wrapper{height:180px}
+    }
+    /* Tablets en vertical */
+    @media (max-width: 768px){
+      main.container{flex-direction:column}
+      #tabla-container{order:2}
+      #graficas-container{order:1}
+      .chart-wrapper{height:160px}
+    }
+    /* Pantallas pequeñas/móviles */
+    @media (max-width:420px){
+      header h1{font-size:1rem}
+      th, td{padding:8px; font-size:0.95rem}
+      .chart-wrapper{height:140px}
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>ESP32 Dashboard</h1>
+</header>
+
+<!-- Sección principal del contenido -->
+<main class="container">
+  <!-- Sección de gráficas (lado derecho en desktop, arriba en móvil) -->
+  <section id="graficas-container" aria-label="Gráficas">
+    <!-- Gráfica del eje AX -->
+    <div class="chart-wrapper"><canvas id="chartAX" aria-label="Gráfica AX" role="img"></canvas></div>
+    <!-- Gráfica del eje AY -->
+    <div class="chart-wrapper"><canvas id="chartAY" aria-label="Gráfica AY" role="img"></canvas></div>
+    <!-- Gráfica del eje AZ -->
+    <div class="chart-wrapper"><canvas id="chartAZ" aria-label="Gráfica AZ" role="img"></canvas></div>
+  </section>
+
+  <!-- Tabla de datos en tiempo real (lado izquierdo en desktop, abajo en móvil) -->
+  <aside id="tabla-container" aria-label="Datos en tiempo real">
+    <h3>Datos en tiempo real</h3>
+    <div class="table-wrapper">
+      <table id="data-table">
+        <thead>
+          <tr>
+            <th>AX</th><th>AY</th><th>AZ</th><th>EMG</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </aside>
+</main>
+
+<!-- Archivo JavaScript con la lógica de actualización -->
+<script src="/static/script.js"></script>
+</body>
+</html>

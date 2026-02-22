@@ -1,0 +1,17 @@
+
+# Excepciones: carpetas que sí incluir
+!static/
+!templates/
+
+# No ignorar .gitignore
+!.gitignore
+
+# Ignorar archivos de entorno virtual
+.venv/
+.env
+
+# Ignorar carpetas
+EMG_Acelerometro/
+
+# Ignorar archivos de MATLAB
+*.mlapp
