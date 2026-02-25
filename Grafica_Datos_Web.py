@@ -1,6 +1,3 @@
-import eventlet
-eventlet.monkey_patch()
-
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 from flask_socketio import SocketIO
@@ -9,7 +6,8 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-socketio = SocketIO(app, cors_allowed_origins="*")
+# async_mode="threading" evita usar eventlet o gevent
+socketio = SocketIO(app, cors_allowed_origins="*", async_mode="threading")
 
 datos_actuales = {"ax": 0, "ay": 0, "az": 0}
 
@@ -24,7 +22,7 @@ def update():
     global datos_actuales
     datos_actuales = request.get_json()
 
-    # 🔥 Enviar datos en tiempo real a todos los clientes conectados
+    # Enviar datos en tiempo real
     socketio.emit('nuevos_datos', datos_actuales)
 
     return jsonify({"status": "ok"})
