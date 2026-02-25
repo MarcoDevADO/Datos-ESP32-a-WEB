@@ -1,13 +1,16 @@
-<!DOCTYPE html>
-<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>ESP32 Dashboard</title>
-  <!-- Biblioteca Chart.js para gráficas en tiempo real -->
+
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- Estilos CSS personalizados -->
+
+  <!-- Socket.IO -->
+  <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+
+  <!-- Estilos -->
   <style>
     /* Variables CSS globales para diseño responsivo */
     :root{
@@ -142,6 +145,6 @@
 </main>
 
 <!-- Archivo JavaScript con la lógica de actualización -->
-<script src="/static/script.js"></script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
