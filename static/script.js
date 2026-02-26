@@ -44,12 +44,14 @@ async function updateData() {
         row.insertCell(0).innerText = json.ax;
         row.insertCell(1).innerText = json.ay;
         row.insertCell(2).innerText = json.az;
+        row.insertCell(3).innerText = json.emg;
 
         if (tableBody.rows.length > 50) tableBody.deleteRow(0);
 
         addData(chartAX, json.ax);
         addData(chartAY, json.ay);
         addData(chartAZ, json.az);
+        addData(chartEMG, json.emg);
 
     } catch (error) {
         console.log("Esperando datos...");
