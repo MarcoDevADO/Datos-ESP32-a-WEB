@@ -1,14 +1,11 @@
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
-from flask_socketio import SocketIO
 import os
 
 app = Flask(__name__)
 CORS(app)
 
-# async_mode="threading" evita usar eventlet o gevent
-socketio = SocketIO(app, cors_allowed_origins="*", async_mode="threading")
-
+# Buffer global
 datos_actuales = {"ax": 0, "ay": 0, "az": 0, "emg": 0}
 
 
@@ -21,13 +18,14 @@ def home():
 def update():
     global datos_actuales
     datos_actuales = request.get_json()
-
-    # Enviar datos en tiempo real
-    socketio.emit('nuevos_datos', datos_actuales)
-
     return jsonify({"status": "ok"})
+
+
+@app.route('/data', methods=['GET'])
+def data():
+    return jsonify(datos_actuales)
 
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    socketio.run(app, host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=port)
