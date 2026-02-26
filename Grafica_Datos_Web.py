@@ -9,7 +9,7 @@ CORS(app)
 # async_mode="threading" evita usar eventlet o gevent
 socketio = SocketIO(app, cors_allowed_origins="*", async_mode="threading")
 
-datos_actuales = {"ax": 0, "ay": 0, "az": 0}
+datos_actuales = {"ax": 0, "ay": 0, "az": 0, "emg": 0}
 
 
 @app.route('/')
