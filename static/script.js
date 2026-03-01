@@ -38,20 +38,18 @@ function addData(chart, value) {
 async function updateData() {
     try {
         const response = await fetch('/data');
-        const json = await response.json();
+        const historial = await response.json();
 
-        const row = tableBody.insertRow();
-        row.insertCell(0).innerText = json.ax;
-        row.insertCell(1).innerText = json.ay;
-        row.insertCell(2).innerText = json.az;
-        row.insertCell(3).innerText = json.emg;
+        tableBody.innerHTML = "";
 
-        if (tableBody.rows.length > 50) tableBody.deleteRow(0);
+        const ultimos = historial.slice(-10);
 
-        addData(chartAX, json.ax);
-        addData(chartAY, json.ay);
-        addData(chartAZ, json.az);
-        addData(chartEMG, json.emg);
+        ultimos.forEach(dato => {
+            const row = tableBody.insertRow();
+            row.insertCell(0).innerText = dato.ax;
+            row.insertCell(1).innerText = dato.ay;
+            row.insertCell(2).innerText = dato.az;
+        });
 
     } catch (error) {
         console.log("Esperando datos...");

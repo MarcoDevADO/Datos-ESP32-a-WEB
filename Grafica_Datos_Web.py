@@ -6,7 +6,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Buffer global
-datos_actuales = {"ax": 0, "ay": 0, "az": 0, "emg": 0}
+datos_historial = []
 
 
 @app.route('/')
@@ -16,14 +16,18 @@ def home():
 
 @app.route('/update', methods=['POST'])
 def update():
-    global datos_actuales
-    datos_actuales = request.get_json()
+    global datos_historial
+
+    dato = request.get_json()
+
+    datos_historial.append(dato)
+
     return jsonify({"status": "ok"})
 
 
 @app.route('/data', methods=['GET'])
 def data():
-    return jsonify(datos_actuales)
+    return jsonify(datos_historial)
 
 
 if __name__ == "__main__":
