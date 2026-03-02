@@ -48,10 +48,10 @@ def download_pdf():
     elements.append(Spacer(1, 12))
 
     # Crear tabla
-    data = [["AX", "AY", "AZ"]]
+    data = [["AX", "AY", "AZ", "EMG"]]
 
     for dato in datos_historial:
-        data.append([dato["ax"], dato["ay"], dato["az"]])
+        data.append([dato["ax"], dato["ay"], dato["az"], dato.get("emg", "-")])
 
     table = Table(data)
     table.setStyle([

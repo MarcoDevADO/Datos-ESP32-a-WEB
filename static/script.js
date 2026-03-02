@@ -53,6 +53,7 @@ async function updateData() {
             row.insertCell(0).innerText = dato.ax;
             row.insertCell(1).innerText = dato.ay;
             row.insertCell(2).innerText = dato.az;
+            row.insertCell(3).innerText = dato.emg || "-";
         });
 
     } catch (error) {
@@ -60,5 +61,4 @@ async function updateData() {
     }
 }
 
-// 🔥 Polling estable cada 500ms
 setInterval(updateData, 500);
