@@ -39,6 +39,22 @@ function descargarPDF() {
     window.open('/download-pdf', '_blank');
 }
 
+async function borrarDatos() {
+    if (confirm('¿Estás seguro de que quieres borrar todos los datos?')) {
+        try {
+            const response = await fetch('/clear-data', { method: 'POST' });
+            const result = await response.json();
+            if (result.status === 'ok') {
+                tableBody.innerHTML = "";
+                alert('Datos borrados exitosamente');
+            }
+        } catch (error) {
+            console.error('Error al borrar datos:', error);
+            alert('Error al borrar datos');
+        }
+    }
+}
+
 async function updateData() {
     try {
         const response = await fetch('/data');

@@ -35,6 +35,12 @@ def update():
 def data():
     return jsonify(datos_historial)
 
+@app.route('/clear-data', methods=['POST'])
+def clear_data():
+    global datos_historial
+    datos_historial = []
+    return jsonify({"status": "ok"})
+
 @app.route('/download-pdf', methods=['GET'])
 def download_pdf():
     global datos_historial
