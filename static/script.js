@@ -1,7 +1,12 @@
 const tableBody = document.querySelector("#data-table tbody");
 
-const ctxdist1_historial = document.getElementById('chartAX').getContext('2d');
-const ctxdist2_historial = document.getElementById('chartAY').getContext('2d');
+console.log('script.js cargado. tableBody:', tableBody);
+
+const canvas1 = document.getElementById('chartdist1');
+const canvas2 = document.getElementById('chartdist2');
+if (!canvas1 || !canvas2) console.error('Canvas no encontrado:', canvas1, canvas2);
+const ctxdist1 = canvas1.getContext('2d');
+const ctxdist2 = canvas2.getContext('2d');
 
 function createLineChart(ctx, label, color){
     return new Chart(ctx, {
@@ -18,8 +23,8 @@ function createLineChart(ctx, label, color){
     });
 }
 
-const chartdist1_historial = createLineChart(ctxdist1_historial, 'dist1', 'red');
-const chartdist2_historial = createLineChart(ctxdist2_historial, 'dist2', 'green');
+const chartdist1 = createLineChart(ctxdist1, 'dist1', 'red');
+const chartdist2 = createLineChart(ctxdist2, 'dist2', 'green');
 
 function addData(chart, value) {
     chart.data.labels.push('');
@@ -58,6 +63,9 @@ async function updateData() {
         const response = await fetch('/data');
         const historial = await response.json();
 
+        console.log('/data ->', Array.isArray(historial) ? historial.length : typeof historial, historial?.slice?.(0,3));
+
+        if (!tableBody) { console.error('tableBody no existe'); return; }
         tableBody.innerHTML = "";
 
         historial.forEach(dato => {
@@ -71,13 +79,15 @@ async function updateData() {
             // Actualizar gráficas si vienen valores numéricos (priorizar claves nuevas)
             const v1 = Number(dato.dist1 ?? dato['dist1'] ?? dato.dist1_historial ?? dato['dist1_historial']) || 0;
             const v2 = Number(dato.dist2 ?? dato['dist2'] ?? dato.dist2_historial ?? dato['dist2_historial']) || 0;
-            addData(chartdist1_historial, v1);
-            addData(chartdist2_historial, v2);
+            addData(chartdist1, v1);
+            addData(chartdist2, v2);
         });
 
     } catch (error) {
-        console.log("Esperando datos...");
+        console.error('Error en updateData:', error);
     }
 }
 
+// Ejecutar inmediatamente y luego en intervalo
+updateData();
 setInterval(updateData, 500);
