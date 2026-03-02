@@ -53,11 +53,16 @@ def download_pdf():
     elements.append(Paragraph("Reporte de Datos ESP32", styles['Title']))
     elements.append(Spacer(1, 12))
 
-    # Crear tabla
-    data = [["AX", "AY", "AZ", "EMG"]]
+    # Crear tabla (usar nombres legibles y acceso seguro a claves)
+    data = [["ULTRASONICO 1", "ULTRASONICO 2", "OBSERVADOR 1", "OBSERVADOR 2"]]
 
     for dato in datos_historial:
-        data.append([dato["ax"], dato["ay"], dato["az"], dato.get("emg", "-")])
+        data.append([
+            dato.get("dist1", dato.get("dist1_historial", "0")),
+            dato.get("dist2", dato.get("dist2_historial", "0")),
+            dato.get("obs1", dato.get("obs1_historial", "0")),
+            dato.get("obs2", dato.get("obs2_historial", "0"))
+        ])
 
     table = Table(data)
     table.setStyle([
@@ -74,7 +79,7 @@ def download_pdf():
     return send_file(
         buffer,
         as_attachment=True,
-        download_name="reporte_esp32.pdf",
+        download_name="reporte_datos.pdf",
         mimetype='application/pdf'
     )
 

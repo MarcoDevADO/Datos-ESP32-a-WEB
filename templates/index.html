@@ -121,14 +121,13 @@
   <!-- Sección de gráficas (lado derecho en desktop, arriba en móvil) -->
   <section id="graficas-container" aria-label="Gráficas">
     <!-- Gráfica del eje AX -->
-    <div class="chart-wrapper"><canvas id="chartAX" aria-label="Gráfica AX" role="img"></canvas></div>
+    <div class="chart-wrapper"><canvas id="chartdist1_historial" aria-label="Gráfica dist1_historial" role="img"></canvas></div>
     <!-- Gráfica del eje AY -->
-    <div class="chart-wrapper"><canvas id="chartAY" aria-label="Gráfica AY" role="img"></canvas></div>
-    <!-- Gráfica del eje AZ -->
-    <div class="chart-wrapper"><canvas id="chartAZ" aria-label="Gráfica AZ" role="img"></canvas></div>
+    <div class="chart-wrapper"><canvas id="chartdist2_historial" aria-label="Gráfica dist2_historial" role="img"></canvas></div>
   </section>
   
-  <!-- Tabla de datos en tiempo real (lado izquierdo en desktop, abajo en móvil) -->
+      <!-- Gráfica del eje AZ -->
+      <!-- Se mantienen dos gráficas: dist1 y dist2 -->
   <aside id="tabla-container" aria-label="Datos en tiempo real">
     <h3>Datos en tiempo real</h3>
     <button onclick="descargarPDF()">Descargar PDF</button>
@@ -137,7 +136,7 @@
       <table id="data-table">
         <thead>
           <tr>
-            <th>AX</th><th>AY</th><th>AZ</th><th>EMG</th>
+            <th>ULTRASONICO 1</th><th>ULTRASONICO 2</th><th>OBSERVADOR 1</th><th>OBSERVADOR 2</th>
           </tr>
         </thead>
         <tbody></tbody>

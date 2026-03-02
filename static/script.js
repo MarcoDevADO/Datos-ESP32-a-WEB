@@ -1,8 +1,7 @@
 const tableBody = document.querySelector("#data-table tbody");
 
-const ctxAX = document.getElementById('chartAX').getContext('2d');
-const ctxAY = document.getElementById('chartAY').getContext('2d');
-const ctxAZ = document.getElementById('chartAZ').getContext('2d');
+const ctxdist1_historial = document.getElementById('chartAX').getContext('2d');
+const ctxdist2_historial = document.getElementById('chartAY').getContext('2d');
 
 function createLineChart(ctx, label, color){
     return new Chart(ctx, {
@@ -19,9 +18,8 @@ function createLineChart(ctx, label, color){
     });
 }
 
-const chartAX = createLineChart(ctxAX, 'AX', 'red');
-const chartAY = createLineChart(ctxAY, 'AY', 'green');
-const chartAZ = createLineChart(ctxAZ, 'AZ', 'blue');
+const chartdist1_historial = createLineChart(ctxdist1_historial, 'dist1', 'red');
+const chartdist2_historial = createLineChart(ctxdist2_historial, 'dist2', 'green');
 
 function addData(chart, value) {
     chart.data.labels.push('');
@@ -64,10 +62,17 @@ async function updateData() {
 
         historial.forEach(dato => {
             const row = tableBody.insertRow();
-            row.insertCell(0).innerText = dato.ax;
-            row.insertCell(1).innerText = dato.ay;
-            row.insertCell(2).innerText = dato.az;
-            row.insertCell(3).innerText = dato.emg || "-";
+            // Soporte para claves nuevas y antiguas (sin y con _historial)
+            row.insertCell(0).innerText = (dato.dist1 ?? dato['dist1'] ?? dato.dist1_historial ?? dato['dist1_historial']) ?? '-';
+            row.insertCell(1).innerText = (dato.dist2 ?? dato['dist2'] ?? dato.dist2_historial ?? dato['dist2_historial']) ?? '-';
+            row.insertCell(2).innerText = (dato.obs1 ?? dato['obs1'] ?? dato.obs1_historial ?? dato['obs1_historial']) ?? '-';
+            row.insertCell(3).innerText = (dato.obs2 ?? dato['obs2'] ?? dato.obs2_historial ?? dato['obs2_historial']) ?? '-';
+
+            // Actualizar gráficas si vienen valores numéricos (priorizar claves nuevas)
+            const v1 = Number(dato.dist1 ?? dato['dist1'] ?? dato.dist1_historial ?? dato['dist1_historial']) || 0;
+            const v2 = Number(dato.dist2 ?? dato['dist2'] ?? dato.dist2_historial ?? dato['dist2_historial']) || 0;
+            addData(chartdist1_historial, v1);
+            addData(chartdist2_historial, v2);
         });
 
     } catch (error) {
