@@ -127,10 +127,11 @@
     <!-- Gráfica del eje AZ -->
     <div class="chart-wrapper"><canvas id="chartAZ" aria-label="Gráfica AZ" role="img"></canvas></div>
   </section>
-
+  
   <!-- Tabla de datos en tiempo real (lado izquierdo en desktop, abajo en móvil) -->
   <aside id="tabla-container" aria-label="Datos en tiempo real">
     <h3>Datos en tiempo real</h3>
+    <button onclick="descargarPDF()">Descargar PDF</button>
     <div class="table-wrapper">
       <table id="data-table">
         <thead>

@@ -35,6 +35,10 @@ function addData(chart, value) {
     chart.update('none');
 }
 
+function descargarPDF() {
+    window.open('/download-pdf', '_blank');
+}
+
 async function updateData() {
     try {
         const response = await fetch('/data');
