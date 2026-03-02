@@ -46,9 +46,7 @@ async function updateData() {
 
         tableBody.innerHTML = "";
 
-        const ultimos = historial.slice(-10);
-
-        ultimos.forEach(dato => {
+        historial.forEach(dato => {
             const row = tableBody.insertRow();
             row.insertCell(0).innerText = dato.ax;
             row.insertCell(1).innerText = dato.ay;
